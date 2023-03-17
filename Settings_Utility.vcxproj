@@ -128,10 +128,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Settings_Utility.cpp" />
+    <ClCompile Include="SettingsUtility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Settings_Utility.h" />
+    <ClInclude Include="SettingsUtility.h" />
+    <ClInclude Include="SettingsUtilityInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

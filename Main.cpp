@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Settings_Utility.h"
+#include "SettingsUtility.h"
 
 int main()
 {

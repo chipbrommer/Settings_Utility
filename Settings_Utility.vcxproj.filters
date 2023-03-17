@@ -18,12 +18,15 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Settings_Utility.cpp">
+    <ClCompile Include="SettingsUtility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Settings_Utility.h">
+    <ClInclude Include="SettingsUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsUtilityInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
