@@ -17,6 +17,7 @@
 //          --------------------        ---------------------------------------
 #include <string>                       // strings
 #include <vector>                       // vectors
+#include <map>                          // Map
 //
 //////////////////////////////////////////////////////////////////////////////
 
@@ -33,6 +34,13 @@ enum UTILITY_MODE
     JSON
 };
 
+//! @brief Map for enum to string sets
+std::map<UTILITY_MODE, std::string> ModeMap = {
+    {NOTSET, "Not Set"},
+    {INI, "ini"},
+    {JSON, "json"}
+};
+
 
 //! @brief Define Settings File Info Class
 class SettingsFile
@@ -46,18 +54,21 @@ public:
 
     // constructor initializes everything
     SettingsFile(std::string companyName = "",
-        std::string programName = "",
-        std::string fileName = "",
-        UTILITY_MODE extension = NOTSET) :
-        companyName(companyName), programName(programName), fileName(fileName),
-        extension(extension), fileSize(0)
+                std::string programName = "",
+                std::string fileName = "",
+                UTILITY_MODE extension = NOTSET) :
+                companyName(companyName), programName(programName), fileName(fileName),
+                extension(extension), fileSize(0)
     {}
 
     //! @brief Does struct have valid data ? 
     bool Valid(void) const
     {
-        return (!companyName.empty()) && (!programName.empty()) && (!fileName.empty()) &&
-            (extension != UTILITY_MODE::NOTSET) && (fileSize != 0);
+        return  (!companyName.empty())              && 
+                (!programName.empty())              && 
+                (!fileName.empty())                 &&
+                (extension != UTILITY_MODE::NOTSET) && 
+                (fileSize != 0);
     }
 
     // Output data to stream neatly.
@@ -65,11 +76,11 @@ public:
     {
         os << "Settings File Info: " << "\n";
         sf.Valid() ? os << "\tValid:             Valid\n" : os << "\tValid:             Not Valid\n";
-        os << "\tFilename:          " << sf.companyName << "\n"
-           << "\tFilename:          " << sf.programName << "\n"
-           << "\tFilename:          " << sf.fileName    << "\n"
-           << "\tFilename:          " << sf.extension   << "\n"
-           << "\tFile Size:         " << sf.fileSize    << "\n"
+        os << "\tFilename:          " << sf.companyName         << "\n"
+           << "\tFilename:          " << sf.programName         << "\n"
+           << "\tFilename:          " << sf.fileName            << "\n"
+           << "\tFilename:          " << ModeMap[sf.extension]  << "\n"
+           << "\tFile Size:         " << sf.fileSize            << "\n"
            << "\n";
 
         return os;
