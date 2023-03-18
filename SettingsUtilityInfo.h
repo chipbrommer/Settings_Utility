@@ -27,15 +27,15 @@
 #define SETTINGS_UTILITY_VERSION_BUILD 1
 
 //! @brief enum to hold the different file extensions
-enum FILE_EXTENSION
+enum FILE_EXTENSION : uint8_t
 {
-    NOTSET = 0,
+    NOTSET,
     INI,
     JSON
 };
 
 //! @brief Map for enum to string sets
-std::map<FILE_EXTENSION, std::string> ExtensionMap = {
+static std::map<FILE_EXTENSION, std::string> ExtensionMap = {
     {NOTSET, "Not Set"},
     {INI, "ini"},
     {JSON, "json"}

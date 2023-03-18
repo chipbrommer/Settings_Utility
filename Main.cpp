@@ -1,8 +1,7 @@
 #include <iostream>
-//#include "SettingsUtility.h"
+#include "SettingsUtility.h"
 
 int main()
 {
-	std::cout << "Hello World";
-	return 0;
+    std::cout << "Hello World!\n";
 }

@@ -32,6 +32,7 @@
 #include <filesystem>					// Checking for file extension
 //
 #include "SettingsUtilityInfo.h"		// Class information file. 
+#include "nlohmann/json.hpp"			// Json functionality
 // 
 //	Defines:
 //          name                        reason defined
@@ -71,6 +72,24 @@ public:
 	//! @param extension - [in] - extension of the settings file. 
 	//! @return int: -1 if file is already open, 0 if failed, 1 if successful. 
 	int SetExtension(const FILE_EXTENSION extension);
+
+	int OpenFile();
+
+	int CloseFile();
+
+	//! @brief Create a section in the settings file. 
+	//! @param section - [in] - name of the json section for settings.
+	//! @return int: -1 if already exists, 0 if failed, 1 if success. 
+	int CreateSection(std::string section);
+
+	//! @brief Create a settings item in the settings file. 
+	//! @param section - [in] - name of the settings item.
+	//! @return int: -1 if already exists, 0 if failed, 1 if success. 
+	template<typename T> 
+	int CreateItem(std::string section, std::string item, T value)
+	{
+
+	}
 
 
 protected:

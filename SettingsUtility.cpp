@@ -37,7 +37,10 @@ SettingsUtility::SettingsUtility(const std::string companyName, const std::strin
 
 SettingsUtility::~SettingsUtility()
 {
-	// TODO
+	if (mFile.is_open())
+	{
+		CloseFile();
+	}
 }
 
 int SettingsUtility::SetCompanyName(const std::string company)
@@ -119,6 +122,57 @@ int SettingsUtility::SetExtension(const FILE_EXTENSION extension)
 	{
 		return 1;
 	}
+
+	// Failed. 
+	return 0;
+}
+
+int SettingsUtility::OpenFile()
+{
+	if (!mSettingsFile.Valid())
+	{
+		return -2;
+	}
+
+	if (mFile.is_open())
+	{
+		return -1;
+	}
+	else
+	{
+		// TODO - Open file and return
+	}
+
+	// Failed. 
+	return 0;
+}
+
+int SettingsUtility::CloseFile()
+{
+	if (!mFile.is_open())
+	{
+		return -1;
+	}
+	else
+	{
+		// TODO - Close file.
+
+		return 1;
+	}
+
+	// Failed. 
+	return 0;
+}
+
+int SettingsUtility::CreateSection(std::string section)
+{
+	// File not open, open it
+	if (!mFile.is_open())
+	{
+		// TODO - open file
+	}
+
+	// TODO - add section to file
 
 	// Failed. 
 	return 0;
