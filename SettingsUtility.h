@@ -78,7 +78,7 @@ public:
 	int CloseFile();
 
 	//! @brief Create a section in the settings file. 
-	//! @param section - [in] - name of the json section for settings.
+	//! @param section - [in] - name of the section for settings.
 	//! @return int: -1 if already exists, 0 if failed, 1 if success. 
 	int CreateSection(std::string section);
 
@@ -90,6 +90,12 @@ public:
 	{
 
 	}
+
+	int GetSectionItems();
+
+	int GetItemValue(std::string value);
+
+	int GetAllSettings();
 
 
 protected:
