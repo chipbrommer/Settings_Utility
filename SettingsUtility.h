@@ -68,10 +68,15 @@ public:
 	//! @return int: -1 if file is already open, 0 if failed, 1 if successful. 
 	int SetFileName(const std::string filename);
 
-	//! @brief Set the extension of the settings file to be opened/created
-	//! @param extension - [in] - extension of the settings file. 
+	//! @brief Set the type of the settings file to be opened/created
+	//! @param type - [in] - extension of the settings file. 
 	//! @return int: -1 if file is already open, 0 if failed, 1 if successful. 
-	int SetExtension(const FILE_EXTENSION extension);
+	int SetFileType(const FILE_TYPE type);
+
+	//! @brief Verifies the parent directory exists
+	//! @param directory - [in] - parent directory for the settings file.  
+	//! @return int: -1 if doesnt exist, 0 if exists, 1 if created.
+	int CreateOrVerifyDirectory(const std::string directory);
 
 	int OpenFile();
 

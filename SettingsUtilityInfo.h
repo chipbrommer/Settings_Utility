@@ -27,7 +27,7 @@
 #define SETTINGS_UTILITY_VERSION_BUILD 1
 
 //! @brief enum to hold the different file extensions
-enum FILE_EXTENSION : uint8_t
+enum FILE_TYPE : uint8_t
 {
     NOTSET,
     INI,
@@ -35,7 +35,7 @@ enum FILE_EXTENSION : uint8_t
 };
 
 //! @brief Map for enum to string sets
-static std::map<FILE_EXTENSION, std::string> ExtensionMap = {
+static std::map<FILE_TYPE, std::string> TypeMap = {
     {NOTSET, "Not Set"},
     {INI, "ini"},
     {JSON, "json"}
@@ -45,33 +45,36 @@ static std::map<FILE_EXTENSION, std::string> ExtensionMap = {
 class SettingsFile
 {
 public:
+    std::string		parentDirectory;	// Parent Directory for the folder structure
     std::string		companyName;		// Company Name for folder name
     std::string		programName;		// Program Name for a sub folder name
     std::string		fileName;			// File Name of the settings file
-    FILE_EXTENSION	extension;			// File Extension for the settings file
+    FILE_TYPE	    type;			    // File Extension for the settings file
 
     // Constructor initializes everything
-    SettingsFile(std::string companyName = "",
+    SettingsFile(std::string parentDirectory = "",
+                std::string companyName = "",
                 std::string programName = "",
                 std::string fileName = "",
-                FILE_EXTENSION extension = NOTSET) :
-                companyName(companyName), programName(programName), fileName(fileName),
-                extension(extension)
+                FILE_TYPE type = NOTSET) :
+                parentDirectory(parentDirectory), companyName(companyName), programName(programName), 
+                fileName(fileName), type(type)
     {}
 
     //! @brief Does struct have valid data ? 
     bool Valid(void) const
     {
-        return  (!companyName.empty())                  && 
-                (!programName.empty())                  && 
-                (!fileName.empty())                     &&
-                (extension != FILE_EXTENSION::NOTSET);
+        return  (!parentDirectory.empty())          &&
+                (!companyName.empty())              && 
+                (!programName.empty())              && 
+                (!fileName.empty())                 &&
+                (type != FILE_TYPE::NOTSET);
     }
 
     //! @brief Returns the complete folder path
-    std::string GetFolderPath()
+    std::string GetFullPath()
     {
-        return companyName + '/' + programName + '/' + fileName + '.' + ExtensionMap[extension];
+        return parentDirectory + '\\' + companyName + '\\' + programName + '\\' + fileName + '\\' + TypeMap[type];
     }
 
     // Output Data to stream neatly.
@@ -79,10 +82,11 @@ public:
     {
         os << "Settings File Info: " << "\n";
         sf.Valid() ? os << "\tValid:             Valid\n" : os << "\tValid:             Not Valid\n";
-        os << "\tCompany Name:          " << sf.companyName             << "\n"
+        os << "\tProgram Name:          " << sf.parentDirectory         << "\n"
+           << "\tCompany Name:          " << sf.companyName             << "\n"
            << "\tProgram Name:          " << sf.programName             << "\n"
            << "\tFilename:              " << sf.fileName                << "\n"
-           << "\tExtension:             " << ExtensionMap[sf.extension] << "\n"
+           << "\tExtension:             " << TypeMap[sf.type]           << "\n"
            << "\n";
 
         return os;

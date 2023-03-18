@@ -106,7 +106,7 @@ int SettingsUtility::SetFileName(const std::string filename)
 	return 0;
 }
 
-int SettingsUtility::SetExtension(const FILE_EXTENSION extension)
+int SettingsUtility::SetFileType(const FILE_TYPE type)
 {
 	// File already open, cant set name. 
 	if (mFile.is_open())
@@ -115,16 +115,47 @@ int SettingsUtility::SetExtension(const FILE_EXTENSION extension)
 	}
 
 	// Set extension. 
-	mSettingsFile.extension = extension;
+	mSettingsFile.type = type;
 
 	// If extensions are equal, success. 
-	if (mSettingsFile.extension == extension)
+	if (mSettingsFile.type == type)
 	{
 		return 1;
 	}
 
 	// Failed. 
 	return 0;
+}
+
+int SettingsUtility::CreateOrVerifyDirectory(const std::string directory = "C:\\ProgramData")
+{
+	// Handler for the error return
+	DWORD err;
+	std::wstring stemp = std::wstring(directory.begin(), directory.end());
+	LPCWSTR sw = stemp.c_str();
+
+	// Utilizing the CreateDirectory, we check the series of return values.
+	if (CreateDirectory(sw, NULL) == 0)
+	{
+		// Get the error
+		err = GetLastError();
+
+		// Directory already exists
+		if (err == ERROR_ALREADY_EXISTS)
+		{
+			std::cout << "The path is valid!";
+			return 0;
+		}
+	}
+	else
+	{
+		// Path was created
+		std::cout << "The path was created!";
+		return 1;
+	}
+
+	// Failed
+	return -1;
 }
 
 int SettingsUtility::OpenFile()
