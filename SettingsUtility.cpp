@@ -9,7 +9,7 @@
 //! @date		< 3 / 17 / 2022 > Initial Start Date
 //!
 /*****************************************************************************/
-
+#pragma once
 ///////////////////////////////////////////////////////////////////////////////
 //
 //  Include files:
@@ -21,8 +21,7 @@
 SettingsUtility::SettingsUtility()
 {
 	mTitle = "SettingsUtility";
-	mExtension = ".ini";
-	mFileName = "Settings";
+	mSettingsFile = SettingsFile();
 }
 
 SettingsUtility::SettingsUtility(const std::string companyName, const std::string programName, const std::string fileName = "Settings")
@@ -33,16 +32,54 @@ SettingsUtility::SettingsUtility(const std::string companyName, const std::strin
 	}
 
 	mTitle = "SettingsUtility";
-	mExtension = ".ini";
-	mCompanyName = companyName;
-	mProgramName = programName;
-	mFileName = fileName;
-	mIsInitialized = true;
+	mSettingsFile = SettingsFile();
 }
 
 SettingsUtility::~SettingsUtility()
 {
 	// TODO
+}
+
+int SettingsUtility::SetCompanyName(const std::string company)
+{
+	// File already open, cant set company. 
+	if (mFile.is_open())
+	{
+		return -1;
+	}
+
+	// Set name. 
+	mSettingsFile.companyName = company;
+
+	// If companyNames are equal, success. 
+	if (mSettingsFile.companyName == company)
+	{
+		return 1;
+	}
+
+	// Failed. 
+	return 0;
+}
+
+int SettingsUtility::SetProgramName(const std::string program)
+{
+	// File already open, cant set name. 
+	if (mFile.is_open())
+	{
+		return -1;
+	}
+
+	// Set name. 
+	mSettingsFile.programName = program;
+
+	// If programNames are equal, success. 
+	if (mSettingsFile.programName == program)
+	{
+		return 1;
+	}
+
+	// Failed. 
+	return 0;
 }
 
 int SettingsUtility::SetFileName(const std::string filename)
@@ -54,13 +91,35 @@ int SettingsUtility::SetFileName(const std::string filename)
 	}
 
 	// Set name. 
-	dCSVFileInfo.filename = filename;
+	mSettingsFile.fileName = filename;
 
-	// if filenames are equal, success. 
-	if (dCSVFileInfo.filename == filename)
+	// If filenames are equal, success. 
+	if (mSettingsFile.fileName == filename)
 	{
 		return 1;
 	}
-	// failed. 
+
+	// Failed. 
+	return 0;
+}
+
+int SettingsUtility::SetExtension(const FILE_EXTENSION extension)
+{
+	// File already open, cant set name. 
+	if (mFile.is_open())
+	{
+		return -1;
+	}
+
+	// Set extension. 
+	mSettingsFile.extension = extension;
+
+	// If extensions are equal, success. 
+	if (mSettingsFile.extension == extension)
+	{
+		return 1;
+	}
+
+	// Failed. 
 	return 0;
 }

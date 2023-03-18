@@ -67,15 +67,16 @@ public:
 	//! @return int: -1 if file is already open, 0 if failed, 1 if successful. 
 	int SetFileName(const std::string filename);
 
+	//! @brief Set the extension of the settings file to be opened/created
+	//! @param extension - [in] - extension of the settings file. 
+	//! @return int: -1 if file is already open, 0 if failed, 1 if successful. 
+	int SetExtension(const FILE_EXTENSION extension);
+
 
 protected:
 private:
 	std::string		mTitle;				// Title of the class for logging info
-	std::string		mCompanyName;		// Company Name for folder name
-	std::string		mProgramName;		// Program Name for a sub folder name
-	std::string		mFileName;			// File Name of the settings file
-	std::string		mExtension;			// File Extension for the settings file
-	bool			mIsInitialized;		// Flag for initialization
+	SettingsFile	mSettingsFile;		// A class that holds typical things for the settings file. 
 	std::fstream	mFile;				// File stream
 };
 
