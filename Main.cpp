@@ -3,8 +3,6 @@
 
 int main()
 {
-    std::cout << "Hello World!\n";
-
     SettingsUtility su;
     su.SetCompanyName("ChipB");
     su.SetProgramName("TesterApp");

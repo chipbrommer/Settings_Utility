@@ -170,14 +170,12 @@ int SettingsUtility::CreateOrVerifyDirectory(const std::string directory)
 		// Directory already exists
 		if (err == ERROR_ALREADY_EXISTS)
 		{
-			std::cout << "The path is valid!\n";
 			return 0;
 		}
 	}
 	else
 	{
 		// Path was created
-		std::cout << "The path was created!\n";
 		return 1;
 	}
 
@@ -217,6 +215,15 @@ int SettingsUtility::OpenFile()
 	{
 		return -1;
 	}
+
+	// TODO 
+	/*
+		Check if the file already exists, if it does, parse the contents
+
+		Then Close, 
+
+		Then Allow re-open with parameters below.
+	*/
 
 	// Open
 	mFile.open(mSettingsFile.GetFullPath(), std::ios::in | std::ios::out | std::ios::trunc);
