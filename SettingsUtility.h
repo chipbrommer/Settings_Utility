@@ -24,12 +24,15 @@
 #include	<unistd.h>
 #endif
 //
+#if defined CPP_LOGGER
+#include "CPP_Logger.h"
+#endif
+//
 #include <fstream>						// File Stream
 #include <sstream>                      // Stream for parsing strings
 #include <string>                       // Strings
 #include <iostream>						// Standard IO
 #include <mutex>						// Data protection
-#include <filesystem>					// Checking for file extension
 //
 #include "SettingsUtilityInfo.h"		// Class information file. 
 #include "nlohmann/json.hpp"			// Json functionality
@@ -78,8 +81,12 @@ public:
 	//! @return int: -1 if doesnt exist, 0 if exists, 1 if created.
 	int CreateOrVerifyDirectory(const std::string directory);
 
+	//! @brief Opens a file stream
+	//! @return int: -3 if file settings not fulfilled, -2 if file already open, -1 on failure, 0 on success
 	int OpenFile();
 
+	//! @brief Closes a file if its open.
+	//! @return int: -2 if no is file open, -1 on failure, 0 on success
 	int CloseFile();
 
 	//! @brief Create a section in the settings file. 
@@ -105,6 +112,9 @@ public:
 
 protected:
 private:
+	//! @brief Catch a fail reason for the fstream file
+	void CatchFailReason();
+
 	std::string		mTitle;				// Title of the class for logging info
 	SettingsFile	mSettingsFile;		// A class that holds typical things for the settings file. 
 	std::fstream	mFile;				// File stream

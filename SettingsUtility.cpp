@@ -160,39 +160,76 @@ int SettingsUtility::CreateOrVerifyDirectory(const std::string directory = "C:\\
 
 int SettingsUtility::OpenFile()
 {
+	// Make sure all the info has been set 
 	if (!mSettingsFile.Valid())
+	{
+		return -3;
+	}
+
+	// Check if we are already opened. 
+	if (mFile.is_open())
 	{
 		return -2;
 	}
 
-	if (mFile.is_open())
+	// Open
+	mFile.open(mSettingsFile.GetFullPath(), std::ios::in | std::ios::out | std::ios::trunc);
+
+	// Check if open was successful
+	if (!mFile.is_open())
 	{
+#ifdef CPP_LOGGER
+		log->AddEntry(LOG_LEVEL::LOG_ERROR, mTitle, "Failed to open the output file.");
+#else
+		printf_s("%s - Failed to open the output file.\n", mTitle.c_str());
+#endif
 		return -1;
+	}
+
+	// Re-assurance check that the file is good. 
+	if (mFile.good())
+	{
+		// Success
+#ifdef CPP_LOGGER
+		log->AddEntry(LOG_LEVEL::LOG_INFO, mTitle, "File open successful: %s", mSettingsFile.GetFullPath().c_str());
+#else
+		printf_s("%s - File open successful: %s\n", mTitle.c_str(), mSettingsFile.GetFullPath().c_str());
+#endif
+		return 0;
 	}
 	else
 	{
-		// TODO - Open file and return
+		CatchFailReason();
 	}
 
-	// Failed. 
-	return 0;
+	// Default Return
+	return -1;
 }
 
 int SettingsUtility::CloseFile()
 {
+	// Verify the file is open.
+	// if not open, return. 
 	if (!mFile.is_open())
 	{
-		return -1;
+		return -2;
 	}
 	else
 	{
-		// TODO - Close file.
+		// Close the file, clear the filename and reset the file flag
+		mFile.close();
 
-		return 1;
+		// Verify file is closed and return appropriately. 
+		if (mFile.is_open())
+		{
+			return -1;
+		}
+
+		return 0;
 	}
 
-	// Failed. 
-	return 0;
+	// Default Return. 
+	return -1;
 }
 
 int SettingsUtility::CreateSection(std::string section)
@@ -207,4 +244,24 @@ int SettingsUtility::CreateSection(std::string section)
 
 	// Failed. 
 	return 0;
+}
+
+void SettingsUtility::CatchFailReason()
+{
+	if (mFile.eof())
+	{
+		printf("Eof bit set.\n");
+	}
+	else if (mFile.bad())
+	{
+		printf("Bad bit set.\n");
+	}
+	else if (mFile.fail())
+	{
+		printf("Fail bit set.\n");
+	}
+	else
+	{
+		printf("Unknown failure.\n");
+	}
 }

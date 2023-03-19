@@ -74,7 +74,7 @@ public:
     //! @brief Returns the complete folder path
     std::string GetFullPath()
     {
-        return parentDirectory + '\\' + companyName + '\\' + programName + '\\' + fileName + '\\' + TypeMap[type];
+        return parentDirectory + '\\' + companyName + '\\' + programName + '\\' + fileName + '.' + TypeMap[type];
     }
 
     // Output Data to stream neatly.
