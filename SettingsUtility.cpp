@@ -22,6 +22,9 @@ SettingsUtility::SettingsUtility()
 {
 	mTitle = "SettingsUtility";
 	mSettingsFile = SettingsFile();
+	mJsonData = nlohmann::json();
+
+	SetParentDirectory();
 }
 
 SettingsUtility::SettingsUtility(const std::string companyName, const std::string programName, const std::string fileName = "Settings")
@@ -33,6 +36,9 @@ SettingsUtility::SettingsUtility(const std::string companyName, const std::strin
 
 	mTitle = "SettingsUtility";
 	mSettingsFile = SettingsFile();
+	mJsonData = nlohmann::json();
+
+	SetParentDirectory();
 }
 
 SettingsUtility::~SettingsUtility()
@@ -41,6 +47,27 @@ SettingsUtility::~SettingsUtility()
 	{
 		CloseFile();
 	}
+}
+
+int SettingsUtility::SetParentDirectory(const std::string parent)
+{
+	// File already open, cant set parent. 
+	if (mFile.is_open())
+	{
+		return -1;
+	}
+
+	// Set name. 
+	mSettingsFile.parentDirectory = parent;
+
+	// If parentDirectories are equal, success. 
+	if (mSettingsFile.companyName == parent)
+	{
+		return 1;
+	}
+
+	// Failed. 
+	return 0;
 }
 
 int SettingsUtility::SetCompanyName(const std::string company)
@@ -127,7 +154,7 @@ int SettingsUtility::SetFileType(const FILE_TYPE type)
 	return 0;
 }
 
-int SettingsUtility::CreateOrVerifyDirectory(const std::string directory = "C:\\ProgramData")
+int SettingsUtility::CreateOrVerifyDirectory(const std::string directory)
 {
 	// Handler for the error return
 	DWORD err;
@@ -143,14 +170,14 @@ int SettingsUtility::CreateOrVerifyDirectory(const std::string directory = "C:\\
 		// Directory already exists
 		if (err == ERROR_ALREADY_EXISTS)
 		{
-			std::cout << "The path is valid!";
+			std::cout << "The path is valid!\n";
 			return 0;
 		}
 	}
 	else
 	{
 		// Path was created
-		std::cout << "The path was created!";
+		std::cout << "The path was created!\n";
 		return 1;
 	}
 
@@ -170,6 +197,25 @@ int SettingsUtility::OpenFile()
 	if (mFile.is_open())
 	{
 		return -2;
+	}
+
+	// Make sure the directories exists. 
+	std::string fullDir = mSettingsFile.parentDirectory;
+	if (CreateOrVerifyDirectory(fullDir) < 0)
+	{
+		return -1;
+	}
+
+	fullDir = fullDir + '\\' + mSettingsFile.companyName;
+	if (CreateOrVerifyDirectory(fullDir) < 0)
+	{
+		return -1;
+	}
+
+	fullDir = fullDir + '\\' + mSettingsFile.programName;
+	if (CreateOrVerifyDirectory(fullDir) < 0)
+	{
+		return -1;
 	}
 
 	// Open
@@ -261,34 +307,39 @@ int SettingsUtility::CreateSection(std::string section)
 	return rv;
 }
 
+void SettingsUtility::PrintData()
+{
+	std::cout << mSettingsFile;
+}
+
 int SettingsUtility::AddIniSection(std::string section)
 {
-
+	return 0;
 }
 
 int SettingsUtility::ReadIniSection(std::string section)
 {
-
+	return 0;
 }
 
 int SettingsUtility::ReadIniItem(std::string item)
 {
-
+	return 0;
 }
 
 int SettingsUtility::AddJsonSection(std::string section)
 {
-
+	return 0;
 }
 
 int SettingsUtility::ReadJsonSection(std::string section)
 {
-
+	return 0;
 }
 
 int SettingsUtility::ReadJsonItem(std::string item)
 {
-
+	return 0;
 }
 
 void SettingsUtility::CatchFailReason()

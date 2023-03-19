@@ -59,6 +59,11 @@ public:
 	//! @brief Set the filename of the CSV file to be opened/created
 	//! @param filename - [in] - filepath + name to be opened. 
 	//! @return int: -1 if file is already open, 0 if failed, 1 if successful. 
+	int SetParentDirectory(const std::string parent = "C:\\ProgramData");
+
+	//! @brief Set the filename of the CSV file to be opened/created
+	//! @param filename - [in] - filepath + name to be opened. 
+	//! @return int: -1 if file is already open, 0 if failed, 1 if successful. 
 	int SetCompanyName(const std::string filename);
 
 	//! @brief Set the filename of the CSV file to be opened/created
@@ -98,9 +103,11 @@ public:
 	//! @param section - [in] - name of the settings item.
 	//! @return int: -1 if already exists, 0 if failed, 1 if success. 
 	template<typename T> 
-	int CreateItem(std::string section, std::string item, T value)
+	int AddItem(std::string section, std::string item, std::string param, T value)
 	{
+		AddJsonItem(section, item, param, value);
 
+		return 0;
 	}
 
 	int GetSectionItems();
@@ -108,6 +115,8 @@ public:
 	int GetItemValue(std::string value);
 
 	int GetAllSettings();
+
+	void PrintData();
 
 
 protected:
@@ -121,7 +130,7 @@ private:
 	//! @param section - [in] - name of the section for settings.
 	//! @return int: -1 if already exists, 0 if failed, 1 if success.
 	template<typename T> 
-	int AddIniItem(std::string section, std::string item, T value)
+	int AddIniItem(std::string section, std::string item, std::string param, T value)
 	{
 
 	}
@@ -145,9 +154,27 @@ private:
 	//! @param section - [in] - name of the section for settings.
 	//! @return int: -1 if already exists, 0 if failed, 1 if success.
 	template<typename T>
-	int AddJsonItem(std::string section, std::string item, T value)
+	int AddJsonItem(std::string section, std::string item, std::string param, T value)
 	{
+		//if (!section.empty())
+		{
+			// TODO - need to verify the section exists before adding. 
+			/*
+				if section doesnt exist, make it. 
+			*/
+		}
 
+		//if (!item.empty())
+		{
+			// TODO - need to verify the item exists before adding. 
+			/*
+				if item doesnt exist, make it.
+			*/
+		}
+
+		mJsonData[param] = value;
+
+		return 0;
 	}
 
 	//! @brief Create a section in the settings file. 
@@ -163,8 +190,9 @@ private:
 	//! @brief Catch a fail reason for the fstream file
 	void CatchFailReason();
 
-	std::string		mTitle;				// Title of the class for logging info
-	SettingsFile	mSettingsFile;		// A class that holds typical things for the settings file. 
-	std::fstream	mFile;				// File stream
+	std::string			mTitle;				// Title of the class for logging info
+	SettingsFile		mSettingsFile;		// A class that holds typical things for the settings file. 
+	std::fstream		mFile;				// File stream
+	nlohmann::json		mJsonData;			// JSON data
 };
 

@@ -82,7 +82,7 @@ public:
     {
         os << "Settings File Info: " << "\n";
         sf.Valid() ? os << "\tValid:             Valid\n" : os << "\tValid:             Not Valid\n";
-        os << "\tProgram Name:          " << sf.parentDirectory         << "\n"
+        os << "\tParent Directory:      " << sf.parentDirectory         << "\n"
            << "\tCompany Name:          " << sf.companyName             << "\n"
            << "\tProgram Name:          " << sf.programName             << "\n"
            << "\tFilename:              " << sf.fileName                << "\n"
