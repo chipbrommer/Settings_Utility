@@ -112,6 +112,54 @@ public:
 
 protected:
 private:
+	//! @brief Create a section in the INI settings file. 
+	//! @param section - [in] - name of the section for settings.
+	//! @return int: -1 if already exists, 0 if failed, 1 if success.
+	int AddIniSection(std::string section);
+
+	//! @brief Create an item in the INI settings file. 
+	//! @param section - [in] - name of the section for settings.
+	//! @return int: -1 if already exists, 0 if failed, 1 if success.
+	template<typename T> 
+	int AddIniItem(std::string section, std::string item, T value)
+	{
+
+	}
+
+	//! @brief Create a section in the settings file. 
+	//! @param section - [in] - name of the section for settings.
+	//! @return int: -1 if already exists, 0 if failed, 1 if success.
+	int ReadIniSection(std::string section);
+
+	//! @brief Create a section in the settings file. 
+	//! @param section - [in] - name of the section for settings.
+	//! @return int: -1 if already exists, 0 if failed, 1 if success.
+	int ReadIniItem(std::string item);
+	
+	//! @brief Create a section in the settings file. 
+	//! @param section - [in] - name of the section for settings.
+	//! @return int: -1 if already exists, 0 if failed, 1 if success.
+	int AddJsonSection(std::string section);
+
+	//! @brief Create a section in the settings file. 
+	//! @param section - [in] - name of the section for settings.
+	//! @return int: -1 if already exists, 0 if failed, 1 if success.
+	template<typename T>
+	int AddJsonItem(std::string section, std::string item, T value)
+	{
+
+	}
+
+	//! @brief Create a section in the settings file. 
+	//! @param section - [in] - name of the section for settings.
+	//! @return int: -1 if already exists, 0 if failed, 1 if success.
+	int ReadJsonSection(std::string section);
+
+	//! @brief Create a section in the settings file. 
+	//! @param section - [in] - name of the section for settings.
+	//! @return int: -1 if already exists, 0 if failed, 1 if success.
+	int ReadJsonItem(std::string item);
+
 	//! @brief Catch a fail reason for the fstream file
 	void CatchFailReason();
 

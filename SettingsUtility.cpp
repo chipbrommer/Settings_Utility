@@ -234,16 +234,61 @@ int SettingsUtility::CloseFile()
 
 int SettingsUtility::CreateSection(std::string section)
 {
+	// Make sure all the info has been set 
+	if (!mSettingsFile.Valid())
+	{
+		return -2;
+	}
+
 	// File not open, open it
 	if (!mFile.is_open())
 	{
-		// TODO - open file
+		return -1;
 	}
 
-	// TODO - add section to file
+	// Variable to hold return value
+	int rv = -1;
 
-	// Failed. 
-	return 0;
+	// Switch case for section creation based on file type. 
+	switch (mSettingsFile.type)
+	{
+	case FILE_TYPE::INI:	rv = AddIniSection(section);	break;
+	case FILE_TYPE::JSON:	rv = AddJsonSection(section);	break;
+	default:				rv = -1;						break;
+	}
+
+	// Return
+	return rv;
+}
+
+int SettingsUtility::AddIniSection(std::string section)
+{
+
+}
+
+int SettingsUtility::ReadIniSection(std::string section)
+{
+
+}
+
+int SettingsUtility::ReadIniItem(std::string item)
+{
+
+}
+
+int SettingsUtility::AddJsonSection(std::string section)
+{
+
+}
+
+int SettingsUtility::ReadJsonSection(std::string section)
+{
+
+}
+
+int SettingsUtility::ReadJsonItem(std::string item)
+{
+
 }
 
 void SettingsUtility::CatchFailReason()
