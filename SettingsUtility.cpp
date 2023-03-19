@@ -262,6 +262,10 @@ int SettingsUtility::CloseFile()
 	}
 	else
 	{
+		// Write the json data including the Settings File data. 
+		mSettingsFile.ToJson(mJsonData["SettingsFile"]);
+		mFile << mJsonData.dump(4);
+
 		// Close the file, clear the filename and reset the file flag
 		mFile.close();
 

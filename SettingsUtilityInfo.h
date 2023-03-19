@@ -19,6 +19,8 @@
 #include <vector>                       // vectors
 #include <map>                          // Map
 //
+#include "nlohmann/json.hpp"			// Json functionality
+//
 //////////////////////////////////////////////////////////////////////////////
 
 #define SETTINGS_UTILITY_VERSION_MAJOR 0
@@ -77,6 +79,26 @@ public:
         return parentDirectory + '\\' + companyName + '\\' + programName + '\\' + fileName + '.' + TypeMap[type];
     }
 
+    void ToJson(nlohmann::json& json)
+    {
+        json = nlohmann::json{
+            { "parentDirectory",this->parentDirectory },
+            { "companyName",    this->companyName },
+            { "programName",    this->programName },
+            { "fileName",       this->fileName },
+            { "type",           this->type }
+        };
+    }
+
+    void FromJson(const nlohmann::json& json)
+    {
+        json.at("parentDirectory").get_to(  this->parentDirectory);
+        json.at("companyName").get_to(      this->companyName);
+        json.at("programName").get_to(      this->programName);
+        json.at("fileName").get_to(         this->fileName);
+        json.at("type").get_to(             this->type);
+    }
+
     // Output Data to stream neatly.
     friend std::ostream& operator<<(std::ostream& os, const SettingsFile& sf)
     {
@@ -86,7 +108,7 @@ public:
            << "\tCompany Name:          " << sf.companyName             << "\n"
            << "\tProgram Name:          " << sf.programName             << "\n"
            << "\tFilename:              " << sf.fileName                << "\n"
-           << "\tExtension:             " << TypeMap[sf.type]           << "\n"
+           << "\tType:                  " << TypeMap[sf.type]           << "\n"
            << "\n";
 
         return os;

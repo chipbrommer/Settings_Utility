@@ -35,7 +35,6 @@
 #include <mutex>						// Data protection
 //
 #include "SettingsUtilityInfo.h"		// Class information file. 
-#include "nlohmann/json.hpp"			// Json functionality
 // 
 //	Defines:
 //          name                        reason defined
@@ -103,9 +102,25 @@ public:
 	//! @param section - [in] - name of the settings item.
 	//! @return int: -1 if already exists, 0 if failed, 1 if success. 
 	template<typename T> 
-	int AddItem(std::string section, std::string item, std::string param, T value)
+	int AddItem(std::string param, T value, std::string section = std::string(), std::string item = std::string())
 	{
-		AddJsonItem(section, item, param, value);
+		if (!mSettingsFile.Valid())
+		{
+			return -1;
+		}
+
+		if (mSettingsFile.type == FILE_TYPE::JSON)
+		{
+			AddJsonItem(param, value, section, item);
+		}
+		else if (mSettingsFile.type == FILE_TYPE::INI)
+		{
+			AddIniItem(param, value, section, item);
+		}
+		else
+		{
+			return -1;
+		}
 
 		return 0;
 	}
@@ -130,9 +145,35 @@ private:
 	//! @param section - [in] - name of the section for settings.
 	//! @return int: -1 if already exists, 0 if failed, 1 if success.
 	template<typename T> 
-	int AddIniItem(std::string section, std::string item, std::string param, T value)
+	int AddIniItem(std::string param, T value, std::string section = std::string(), std::string item = std::string())
 	{
+		int counter = 0;
 
+		if (!section.empty())
+		{
+			// TODO - need to verify the section exists before adding. 
+			/*
+				if section doesnt exist, make it.
+			*/
+			counter += 1;
+		}
+
+		if (!item.empty())
+		{
+			// TODO - need to verify the item exists before adding. 
+			/*
+				if item doesnt exist, make it.
+			*/
+
+			counter += 2;
+		}
+
+		switch (counter)
+		{
+		default: break;
+		}
+
+		return 0;
 	}
 
 	//! @brief Create a section in the settings file. 
@@ -154,25 +195,35 @@ private:
 	//! @param section - [in] - name of the section for settings.
 	//! @return int: -1 if already exists, 0 if failed, 1 if success.
 	template<typename T>
-	int AddJsonItem(std::string section, std::string item, std::string param, T value)
+	int AddJsonItem(std::string param, T value, std::string section = std::string(), std::string item = std::string())
 	{
-		//if (!section.empty())
+		int counter = 0;
+
+		if (!section.empty())
 		{
 			// TODO - need to verify the section exists before adding. 
 			/*
 				if section doesnt exist, make it. 
 			*/
+			counter += 1;
 		}
 
-		//if (!item.empty())
+		if (!item.empty())
 		{
 			// TODO - need to verify the item exists before adding. 
 			/*
 				if item doesnt exist, make it.
 			*/
+
+			counter += 2;
 		}
 
-		mJsonData[param] = value;
+		switch (counter)
+		{
+		case 0: mJsonData[param] = value; break;
+		case 1: mJsonData[section][param] = value; break;
+		default: break;
+		}
 
 		return 0;
 	}
