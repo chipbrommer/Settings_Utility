@@ -197,7 +197,7 @@ int SettingsUtility::OpenFile()
 		return -2;
 	}
 
-	// Make sure the directories exists. 
+	// Make sure the directories exist. 
 	std::string fullDir = mSettingsFile.parentDirectory;
 	if (CreateOrVerifyDirectory(fullDir) < 0)
 	{
@@ -216,14 +216,9 @@ int SettingsUtility::OpenFile()
 		return -1;
 	}
 
-	// TODO 
-	/*
-		Check if the file already exists, if it does, parse the contents
-
-		Then Close, 
-
-		Then Allow re-open with parameters below.
-	*/
+	std::ifstream i(mSettingsFile.GetFullPath());
+	mJsonData = nlohmann::json::parse(i);
+	i.close();
 
 	// Open
 	mFile.open(mSettingsFile.GetFullPath(), std::ios::in | std::ios::out | std::ios::trunc);
@@ -248,6 +243,7 @@ int SettingsUtility::OpenFile()
 #else
 		printf_s("%s - File open successful: %s\n", mTitle.c_str(), mSettingsFile.GetFullPath().c_str());
 #endif
+
 		return 0;
 	}
 	else
@@ -321,6 +317,11 @@ int SettingsUtility::CreateSection(std::string section)
 void SettingsUtility::PrintData()
 {
 	std::cout << mSettingsFile;
+
+	if (!mJsonData.empty())
+	{
+		std::cout << "\n\n" << mJsonData.dump(4);
+	}
 }
 
 int SettingsUtility::AddIniSection(std::string section)
