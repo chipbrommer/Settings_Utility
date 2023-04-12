@@ -14,7 +14,7 @@ int main()
         std::cout << "Error Opening\n";
     }
 
-    su.AddItem("test", 4);
+    su.AddItem("test", 6);
     su.AddItem("test2", 5);
     su.AddItem("test3", "hello-world 100");
 

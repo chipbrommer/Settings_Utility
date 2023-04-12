@@ -29,7 +29,7 @@
 #define SETTINGS_UTILITY_VERSION_BUILD 1
 
 //! @brief enum to hold the different file extensions
-enum FILE_TYPE : uint8_t
+enum class FILE_TYPE : uint8_t
 {
     NOTSET,
     INI,
@@ -37,10 +37,11 @@ enum FILE_TYPE : uint8_t
 };
 
 //! @brief Map for enum to string sets
-static std::map<FILE_TYPE, std::string> TypeMap = {
-    {NOTSET, "Not Set"},
-    {INI, "ini"},
-    {JSON, "json"}
+static std::map<FILE_TYPE, std::string> TypeMap
+{
+    {FILE_TYPE::NOTSET, "Not Set"},
+    {FILE_TYPE::INI, "ini"},
+    {FILE_TYPE::JSON, "json"}
 };
 
 //! @brief Define Settings File Info Class
@@ -58,7 +59,7 @@ public:
                 std::string companyName = "",
                 std::string programName = "",
                 std::string fileName = "",
-                FILE_TYPE type = NOTSET) :
+                FILE_TYPE type = FILE_TYPE::NOTSET) :
                 parentDirectory(parentDirectory), companyName(companyName), programName(programName), 
                 fileName(fileName), type(type)
     {}

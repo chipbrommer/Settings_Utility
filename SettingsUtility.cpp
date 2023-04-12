@@ -216,8 +216,12 @@ int SettingsUtility::OpenFile()
 		return -1;
 	}
 
+	// Get the data from the file if it exists, attempt to parse if it its not null, and then close it. 
 	std::ifstream i(mSettingsFile.GetFullPath());
-	mJsonData = nlohmann::json::parse(i);
+	if (i.peek() != std::ifstream::traits_type::eof())
+	{
+		mJsonData = nlohmann::json::parse(i);
+	}
 	i.close();
 
 	// Open
